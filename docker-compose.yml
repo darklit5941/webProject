@@ -9,8 +9,8 @@ services:
       - ./devops/mariadb/conf.d:/etc/mysql/conf.d
     environment:
       MYSQL_USER: test
-      MYSQL_ROOT_PASSWORD: "!qaz2wsx"
-      MYSQL_PASSWORD: "!qaz2wsx"
+      MYSQL_ROOT_PASSWORD: "secret"
+      MYSQL_PASSWORD: "secret"
       MYSQL_DATABASE: test
 
   fpm-php726:
