@@ -8,10 +8,10 @@ services:
       - ./devops/mariadb/data:/var/lib/mysql
       - ./devops/mariadb/conf.d:/etc/mysql/conf.d
     environment:
-      MYSQL_USER: test
+      MYSQL_USER: test_user
       MYSQL_ROOT_PASSWORD: "secret"
       MYSQL_PASSWORD: "secret"
-      MYSQL_DATABASE: test
+      MYSQL_DATABASE: test_db
 
   fpm-php726:
     #image: php:7.2.6-fpm-alpine3.7
