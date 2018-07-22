@@ -1,0 +1,45 @@
+version: "3.6"
+services:
+  mariadb:
+    image: mariadb:latest
+    ports:
+      - 3306:3306
+    volumes:
+      - ./devops/mariadb/data:/var/lib/mysql
+      - ./devops/mariadb/conf.d:/etc/mysql/conf.d
+    environment:
+      MYSQL_USER: test
+      MYSQL_ROOT_PASSWORD: "!qaz2wsx"
+      MYSQL_PASSWORD: "!qaz2wsx"
+      MYSQL_DATABASE: test
+
+  fpm-php726:
+    #image: php:7.2.6-fpm-alpine3.7
+    build: devops/php-fpm
+    ports:
+      - 9000:9000
+    volumes:
+      #- ./devops/php-fpm/conf.d:/usr/local/etc/php-fpm.d
+      - ./www:/var/www/html
+    links:
+      - mariadb:mysql
+    user: 65534:65534
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - 80:80
+    volumes:
+      #- ./devops/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./devops/nginx/conf.d:/etc/nginx/conf.d
+      - ./www:/usr/share/nginx/html
+    links:
+      - fpm-php726:php-fpm
+    #command: [nginx-debug, '-g', 'daemon off;']
+    
+  phpmyadmin:
+    image:  phpmyadmin/phpmyadmin:latest
+    ports:
+      - 8080:80
+    links:
+      - mariadb:db
